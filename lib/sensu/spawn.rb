@@ -22,7 +22,7 @@ module Sensu
         create = Proc.new do
           child_process(command, options)
         end
-        @process_worker ||= EM::Worker.new
+        @process_worker ||= EM::Worker.new(:concurrency => 12)
         @process_worker.enqueue(create, callback)
       end
 
