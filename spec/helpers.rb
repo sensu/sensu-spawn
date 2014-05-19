@@ -1,7 +1,7 @@
 require "rspec"
 require "eventmachine"
 
-unless RUBY_VERSION < "1.9"
+unless RUBY_VERSION < "1.9" || RUBY_PLATFORM =~ /java/
   require "codeclimate-test-reporter"
   CodeClimate::TestReporter.start
 end
