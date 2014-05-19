@@ -53,24 +53,4 @@ describe "Sensu::Spawn" do
       end
     end
   end
-
-  it "does not fork the Ruby VM" do
-    async_wrapper do
-      results = []
-      callback = Proc.new do |output, status|
-        results << [output, status]
-      end
-      20.times do |i|
-        Sensu::Spawn.process("cat", :data => i, &callback)
-      end
-      test_results = Proc.new do
-        if results.size == 20
-          async_done
-        else
-          EM.next_tick { test_results.call }
-        end
-      end
-      test_results.call
-    end
-  end
 end
