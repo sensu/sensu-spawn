@@ -60,11 +60,11 @@ describe "Sensu::Spawn" do
       callback = Proc.new do |output, status|
         results << [output, status]
       end
-      50.times do |i|
+      30.times do |i|
         Sensu::Spawn.process("cat", :data => i, &callback)
       end
       tickloop = EM.tick_loop do
-        if results.size == 50
+        if results.size == 30
           :stop
         end
       end
