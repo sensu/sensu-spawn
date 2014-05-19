@@ -1,6 +1,11 @@
 require "rspec"
 require "eventmachine"
 
+unless RUBY_VERSION < "1.9"
+  require "codeclimate-test-reporter"
+  CodeClimate::TestReporter.start
+end
+
 module Helpers
   def timer(delay, &callback)
     periodic_timer = EM::PeriodicTimer.new(delay) do

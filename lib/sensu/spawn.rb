@@ -42,7 +42,8 @@ module Sensu
           shell = ["sh", "-c"]
         end
         ChildProcess.posix_spawn = true
-        child = ChildProcess.build(*shell, command)
+        shell_command = shell + [command]
+        child = ChildProcess.build(*shell_command)
         child.io.stdout = child.io.stderr = writer
         child.leader = true
         [child, reader, writer]
@@ -85,7 +86,8 @@ module Sensu
           child.wait
         end
         writer.close
-        [read_until_eof(reader), child.exit_code]
+        output = read_until_eof(reader)
+        [output, child.exit_code]
       rescue ChildProcess::TimeoutError
         child.stop
         ["Execution timed out", 2]
