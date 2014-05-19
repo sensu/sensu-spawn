@@ -1,5 +1,6 @@
 gem "sensu-em"
 gem "em-worker", "0.0.2"
+gem "childprocess", "0.5.3"
 
 require "eventmachine"
 require "em/worker"
