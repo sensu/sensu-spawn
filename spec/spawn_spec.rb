@@ -59,6 +59,7 @@ describe "Sensu::Spawn" do
       results = []
       callback = Proc.new do |output, status|
         results << [output, status]
+        puts results.size
       end
       20.times do |i|
         Sensu::Spawn.process("cat", :data => i, &callback)
