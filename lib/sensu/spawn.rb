@@ -27,8 +27,6 @@ module Sensu
         @process_worker.enqueue(create, callback)
       end
 
-      private
-
       # Build a child process attached to a pipe, in order to capture
       # its output (STDERR, STDOUT). The child process will be a
       # platform dependent shell, that is responsible for executing
