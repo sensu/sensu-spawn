@@ -63,7 +63,7 @@ describe "Sensu::Spawn" do
       20.times do
         Sensu::Spawn.process("cat", :data => "foo", &callback)
       end
-      timer(3) do
+      timer(5) do
         expect(results.size).to eq(20)
         async_done
       end

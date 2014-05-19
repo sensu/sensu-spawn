@@ -16,9 +16,11 @@ module Sensu
       # @param [Hash] options to create a child process with.
       # @option options [String] :data to write to STDIN.
       # @option options [Integer] :timeout in seconds.
-      def process(*args, &callback)
+      # @param [Proc] callback called when the child process exits,
+      #   its output and exit status are passed as parameters.
+      def process(command, options={}, &callback)
         create = Proc.new do
-          child_process(*args)
+          child_process(command, options)
         end
         @process_worker ||= EM::Worker.new
         @process_worker.enqueue(create, callback)
@@ -37,9 +39,9 @@ module Sensu
         reader, writer = IO.pipe
         shell = case RUBY_PLATFORM
         when /(ms|cyg|bcc)win|mingw|win32/
-          shell = ["cmd", "/c"]
+          ["cmd", "/c"]
         else
-          shell = ["sh", "-c"]
+          ["sh", "-c"]
         end
         ChildProcess.posix_spawn = true
         shell_command = shell + [command]
@@ -51,7 +53,7 @@ module Sensu
 
       # Read a stream/file until end of file (EOF).
       #
-      # @param reader [Object] to read contents of until EOF.
+      # @param [Object] reader to read contents of until EOF.
       # @return [String] the stream/file contents.
       def read_until_eof(reader)
         output = ""
