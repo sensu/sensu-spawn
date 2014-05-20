@@ -5,6 +5,16 @@
 [![Code Climate](https://codeclimate.com/github/sensu/sensu-spawn.png)](https://codeclimate.com/github/sensu/sensu-spawn)
 [![Code Climate Coverage](https://codeclimate.com/github/sensu/sensu-spawn/coverage.png)](https://codeclimate.com/github/sensu/sensu-spawn)
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+    gem 'sensu-spawn'
+
+And then execute:
+
+    $ bundle
+
 ## Usage
 
 Documentation can be found [here](http://rubydoc.info/github/sensu/sensu-spawn/Sensu/Spawn).
