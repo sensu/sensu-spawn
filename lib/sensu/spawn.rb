@@ -90,10 +90,10 @@ module Sensu
         output = read_until_eof(reader)
         [output, child.exit_code]
       rescue ChildProcess::TimeoutError
-        child.stop
+        child.stop rescue nil
         ["Execution timed out", 2]
       rescue => error
-        child.stop
+        child.stop rescue nil
         ["Unexpected error: #{error}", 3]
       end
     end
