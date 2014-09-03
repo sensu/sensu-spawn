@@ -77,6 +77,8 @@ module Sensu
         child, reader, writer = build_child_process(command)
         child.duplex = true if options[:data]
         child.start
+        writer.close
+        output = read_until_eof(reader)
         if options[:data]
           child.io.stdin.write(options[:data])
           child.io.stdin.close
@@ -86,8 +88,6 @@ module Sensu
         else
           child.wait
         end
-        writer.close
-        output = read_until_eof(reader)
         [output, child.exit_code]
       rescue ChildProcess::TimeoutError
         child.stop rescue nil
