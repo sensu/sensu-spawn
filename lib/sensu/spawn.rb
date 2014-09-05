@@ -82,10 +82,13 @@ module Sensu
           child.io.stdin.write(options[:data])
           child.io.stdin.close
         end
-        output = read_until_eof(reader)
         if options[:timeout]
+          # This will hit deadlock for child output > OS max buffer size 
+          # Timeout behavior needs to be re-worked in order to avoid deadlock 
           child.poll_for_exit(options[:timeout])
+          output = read_until_eof(reader)
         else
+          output = read_until_eof(reader)
           child.wait
         end
         [output, child.exit_code]
