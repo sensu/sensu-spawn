@@ -4,4 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 # Platform specific gems for testing
-gem "jruby-jars", "1.7.11", :platforms => :jruby
+gem "jruby-jars", "1.7.12", :platforms => :jruby
