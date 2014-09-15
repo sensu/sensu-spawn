@@ -15,9 +15,11 @@ describe "Sensu::Spawn" do
   end
 
   it "can spawn a process with output greater than 64KB" do |output, status|
+    output_asset = "spec/assets/output_1MB"
+    expected_output = IO.read(output_asset)
     async_wrapper do
-      Sensu::Spawn.process("dd if=/dev/urandom bs=1k count=70") do |output, status|
-        # expect(output).to eq("foo\n")
+      Sensu::Spawn.process("cat #{output_asset}") do |output, status|
+        expect(output).to eq(expected_output)
         expect(status).to eq(0)
         async_done
       end
