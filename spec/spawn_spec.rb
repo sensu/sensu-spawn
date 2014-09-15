@@ -14,6 +14,17 @@ describe "Sensu::Spawn" do
     end
   end
 
+  it "can spawn a process with output greater than 64KB" do |output, status|
+    async_wrapper do
+      Sensu::Spawn.process("dd if=/dev/urandom bs=1k count=70") do |output, status|
+        # expect(output).to eq("foo\n")
+        expect(status).to eq(0)
+        async_done
+      end
+    end
+  end
+
+
   it "can spawn a process with a non-zero exit status" do
     async_wrapper do
       Sensu::Spawn.process("echo foo && exit 1") do |output, status|

@@ -77,17 +77,20 @@ module Sensu
         child, reader, writer = build_child_process(command)
         child.duplex = true if options[:data]
         child.start
+        writer.close
         if options[:data]
           child.io.stdin.write(options[:data])
           child.io.stdin.close
         end
         if options[:timeout]
+          # This will hit deadlock for child output > OS max buffer size 
+          # Timeout behavior needs to be re-worked in order to avoid deadlock 
           child.poll_for_exit(options[:timeout])
+          output = read_until_eof(reader)
         else
+          output = read_until_eof(reader)
           child.wait
         end
-        writer.close
-        output = read_until_eof(reader)
         [output, child.exit_code]
       rescue ChildProcess::TimeoutError
         child.stop rescue nil
