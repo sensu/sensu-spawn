@@ -68,6 +68,10 @@ module Sensu
       # and exit status. The child process will have its own process
       # group, may accept data via STDIN, and have a timeout.
       #
+      # The child process timeout functionality needs to be re-worked,
+      # as it currenty allows for a deadlock, when the child output is
+      # greater than the OS max buffer size.
+      #
       # @param [String] command to run.
       # @param [Hash] options to create a child process with.
       # @option options [String] :data to write to STDIN.
@@ -83,8 +87,6 @@ module Sensu
           child.io.stdin.close
         end
         if options[:timeout]
-          # This will hit deadlock for child output > OS max buffer size 
-          # Timeout behavior needs to be re-worked in order to avoid deadlock 
           child.poll_for_exit(options[:timeout])
           output = read_until_eof(reader)
         else
