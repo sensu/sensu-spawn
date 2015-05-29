@@ -5,6 +5,13 @@ gem "childprocess", "0.5.3"
 require "eventmachine"
 require "em/worker"
 require "childprocess"
+require "ffi"
+
+begin
+  require "childprocess/unix/platform/#{ChildProcess.platform_name}"
+  require "childprocess/unix/lib"
+  require "childprocess/unix/posix_spawn_process"
+rescue LoadError; end
 
 module Sensu
   module Spawn
