@@ -1,3 +1,11 @@
+## 1.3.0 - 2015-07-09
+
+### Other
+
+Bumped the version of childprocess to 0.5.6, adding support for the
+removal of environment variables (nil) and improved illegal thread state
+logging.
+
 ## 1.2.0 - 2015-05-29
 
 ### Fixes
