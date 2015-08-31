@@ -15,6 +15,8 @@ rescue LoadError; end
 
 module Sensu
   module Spawn
+    @@mutex = Mutex.new
+
     class << self
       # Spawn a child process. A maximum of 12 processes will be
       # spawned at a time. The EventMachine reactor (loop) must be
@@ -51,7 +53,9 @@ module Sensu
         end
         ChildProcess.posix_spawn = true
         shell_command = shell + [command]
-        child = ChildProcess.build(*shell_command)
+        child = @@mutex.synchronize do
+          ChildProcess.build(*shell_command)
+        end
         child.io.stdout = child.io.stderr = writer
         child.leader = true
         [child, reader, writer]
@@ -87,7 +91,9 @@ module Sensu
       def child_process(command, options={})
         child, reader, writer = build_child_process(command)
         child.duplex = true if options[:data]
-        child.start
+        @@mutex.synchronize do
+          child.start
+        end
         writer.close
         if options[:data]
           child.io.stdin.write(options[:data])
