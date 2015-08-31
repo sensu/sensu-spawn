@@ -53,9 +53,7 @@ module Sensu
         end
         ChildProcess.posix_spawn = true
         shell_command = shell + [command]
-        child = @@mutex.synchronize do
-          ChildProcess.build(*shell_command)
-        end
+        child = ChildProcess.build(*shell_command)
         child.io.stdout = child.io.stderr = writer
         child.leader = true
         [child, reader, writer]
@@ -78,6 +76,9 @@ module Sensu
       # Create a child process, return its output (STDERR & STDOUT),
       # and exit status. The child process will have its own process
       # group, may accept data via STDIN, and have a timeout.
+      # ChildProcess Unix POSIX spawn (`start()`) is not thread safe,
+      # so a mutex is used to allow safe execution on Ruby runtimes
+      # with real threads (JRuby).
       #
       # The child process timeout functionality needs to be re-worked,
       # as it currenty allows for a deadlock, when the child output is
