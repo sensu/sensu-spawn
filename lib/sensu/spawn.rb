@@ -5,6 +5,7 @@ gem "childprocess", "0.5.6"
 require "eventmachine"
 require "em/worker"
 require "childprocess"
+require "rbconfig"
 require "ffi"
 
 begin
@@ -15,6 +16,8 @@ rescue LoadError; end
 
 module Sensu
   module Spawn
+    @@mutex = Mutex.new
+
     class << self
       # Spawn a child process. A maximum of 12 processes will be
       # spawned at a time. The EventMachine reactor (loop) must be
@@ -74,6 +77,9 @@ module Sensu
       # Create a child process, return its output (STDERR & STDOUT),
       # and exit status. The child process will have its own process
       # group, may accept data via STDIN, and have a timeout.
+      # ChildProcess Unix POSIX spawn (`start()`) is not thread safe,
+      # so a mutex is used to allow safe execution on Ruby runtimes
+      # with real threads (JRuby).
       #
       # The child process timeout functionality needs to be re-worked,
       # as it currenty allows for a deadlock, when the child output is
@@ -87,7 +93,9 @@ module Sensu
       def child_process(command, options={})
         child, reader, writer = build_child_process(command)
         child.duplex = true if options[:data]
-        child.start
+        @@mutex.synchronize do
+          child.start
+        end
         writer.close
         if options[:data]
           child.io.stdin.write(options[:data])
