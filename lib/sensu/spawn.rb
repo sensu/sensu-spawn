@@ -5,6 +5,7 @@ gem "childprocess", "0.5.6"
 require "eventmachine"
 require "em/worker"
 require "childprocess"
+require "rbconfig"
 require "ffi"
 
 begin
