@@ -1,3 +1,11 @@
+## 1.4.0 - 2015-09-09
+
+### Fixes
+
+Added a mutex `synchronize()` around ChildProcess Unix POSIX spawn
+(`start()`), as it is not thread safe, allowing safe execution on
+Ruby runtimes with real threads (JRuby).
+
 ## 1.3.0 - 2015-07-09
 
 ### Other
