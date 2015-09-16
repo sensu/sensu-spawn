@@ -1,3 +1,10 @@
+## 1.5.0 - 2015-09-16
+
+### Other
+
+Removed sensu-em as a dependency, letting Sensu Core determine the version
+of EventMachine to be used.
+
 ## 1.4.0 - 2015-09-09
 
 ### Fixes
