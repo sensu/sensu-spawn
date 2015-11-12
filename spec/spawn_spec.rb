@@ -66,4 +66,18 @@ describe "Sensu::Spawn" do
       end
     end
   end
+
+  it "can spawn many process and release resources (e.g. file handles)" do
+    async_wrapper do
+      1000.times do
+        Sensu::Spawn.process("echo foo && exit 1")
+      end
+      EM::Timer.new(5) do
+        ObjectSpace.each_object(IO) do |f|
+          puts f.inspect
+        end
+        async_done
+      end
+    end
+  end
 end
