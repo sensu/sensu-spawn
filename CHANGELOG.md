@@ -1,3 +1,9 @@
+## 1.6.0 - 2015-11-13
+
+### Fixes
+
+Use ChildProcess 0.5.8 to fix the Windows job handle leak.
+
 ## 1.5.0 - 2015-09-16
 
 ### Other
