@@ -15,6 +15,8 @@ rescue LoadError; end
 
 module Sensu
   module Spawn
+    POSIX_SPAWN_PLATFORMS = [:linux, :macosx].freeze
+
     @@mutex = Mutex.new
 
     class << self
@@ -36,6 +38,14 @@ module Sensu
         @process_worker.enqueue(create, callback)
       end
 
+      # Determine if POSIX Spawn is used to create child processes on
+      # the current platform. ChildProcess supports POSIX Spawn for
+      # several platforms (OSs & architectures), however, Sensu only
+      # enables the use of POSIX Spawn on a select few.
+      def posix_spawn?
+        @posix_spawn ||= POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
+      end
+
       # Build a child process attached to a pipe, in order to capture
       # its output (STDERR, STDOUT). The child process will be a
       # platform dependent shell, that is responsible for executing
@@ -51,7 +61,7 @@ module Sensu
         else
           ["sh", "-c"]
         end
-        ChildProcess.posix_spawn = true
+        ChildProcess.posix_spawn = posix_spawn?
         shell_command = shell + [command]
         child = ChildProcess.build(*shell_command)
         child.io.stdout = child.io.stderr = writer
