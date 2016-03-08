@@ -34,6 +34,7 @@ module Sensu
         create = Proc.new do
           child_process(command, options)
         end
+        concurrency = options.fetch(:concurrency, 12)
         @process_worker ||= EM::Worker.new(:concurrency => 12)
         @process_worker.enqueue(create, callback)
       end
