@@ -5,9 +5,12 @@ require "eventmachine"
 require "em/worker"
 require "childprocess"
 require "rbconfig"
-require "ffi"
 
+# Attempt an upfront loading of FFI and POSIX spawn libraries. These
+# libraries may fail to load on certain platforms, load errors are
+# silenced, and the libraries are not used by Sensu Spawn.
 begin
+  require "ffi"
   require "childprocess/unix/platform/#{ChildProcess.platform_name}"
   require "childprocess/unix/lib"
   require "childprocess/unix/posix_spawn_process"
