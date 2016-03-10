@@ -1,3 +1,16 @@
+## 1.8.0 - 2016-03-16
+
+### Fixes
+
+Moved FFI library require to load error rescue block, fixing the AIX and
+Solaris builds.
+
+## 1.7.0 - 2016-03-01
+
+### Other
+
+Only enable POSIX spawn on Linux and OS X.
+
 ## 1.6.0 - 2015-11-13
 
 ### Fixes
