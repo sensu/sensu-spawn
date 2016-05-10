@@ -26,6 +26,17 @@ describe "Sensu::Spawn" do
     end
   end
 
+  it "can spawn a process with output greater than 64KB with a timeout" do |output, status|
+    output_asset = "spec/assets/output_1MB"
+    expected_output = IO.read(output_asset)
+    async_wrapper do
+      Sensu::Spawn.process("cat #{output_asset}", :timeout => 10) do |output, status|
+        expect(output).to eq(expected_output)
+        expect(status).to eq(0)
+        async_done
+      end
+    end
+  end
 
   it "can spawn a process with a non-zero exit status" do
     async_wrapper do

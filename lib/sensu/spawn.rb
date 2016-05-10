@@ -6,6 +6,8 @@ require "em/worker"
 require "childprocess"
 require "rbconfig"
 
+require "timeout"
+
 # Attempt an upfront loading of FFI and POSIX spawn libraries. These
 # libraries may fail to load on certain platforms, load errors are
 # silenced, and the libraries are not used by Sensu Spawn.
@@ -93,9 +95,9 @@ module Sensu
       # so a mutex is used to allow safe execution on Ruby runtimes
       # with real threads (JRuby).
       #
-      # The child process timeout functionality needs to be re-worked,
-      # as it currenty allows for a deadlock, when the child output is
-      # greater than the OS max buffer size.
+      # Using stdlib's Timeout instead of child.poll_for_exit to
+      # avoid a deadlock, when the child output is greater than
+      # the OS max buffer size.
       #
       # @param [String] command to run.
       # @param [Hash] options to create a child process with.
@@ -114,8 +116,10 @@ module Sensu
           child.io.stdin.close
         end
         if options[:timeout]
-          child.poll_for_exit(options[:timeout])
-          output = read_until_eof(reader)
+          output = Timeout::timeout(options[:timeout], klass = ChildProcess::TimeoutError) {
+            read_until_eof(reader)
+          }
+          child.wait
         else
           output = read_until_eof(reader)
           child.wait
