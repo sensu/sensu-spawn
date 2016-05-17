@@ -4,6 +4,10 @@ require "sensu/spawn"
 describe "Sensu::Spawn" do
   include Helpers
 
+  it "can setup a process worker" do
+    Sensu::Spawn.setup(:limit => 20)
+  end
+
   it "can spawn a process" do
     async_wrapper do
       Sensu::Spawn.process("echo foo") do |output, status|

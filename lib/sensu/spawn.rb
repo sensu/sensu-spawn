@@ -23,8 +23,20 @@ module Sensu
     @@mutex = Mutex.new
 
     class << self
-      # Spawn a child process. A maximum of 12 processes will be
-      # spawned at a time. The EventMachine reactor (loop) must be
+      # Setup a spawn process worker, to limit the number of
+      # concurrent child processes allowed at one time. This method
+      # creates the spawn process worker instance variable:
+      # `@process_worker`.
+      #
+      # @param [Hash] options to create a process worker with.
+      # @option options [Integer] :limit max number of child processes
+      #   at a time.
+      def setup(options={})
+        limit = options[:limit] || 12
+        @process_worker ||= EM::Worker.new(:concurrency => limit)
+      end
+
+      # Spawn a child process. The EventMachine reactor (loop) must be
       # running for this method to work.
       #
       # @param [String] command to run.
@@ -37,7 +49,7 @@ module Sensu
         create = Proc.new do
           child_process(command, options)
         end
-        @process_worker ||= EM::Worker.new(:concurrency => 12)
+        setup(options) unless @process_worker
         @process_worker.enqueue(create, callback)
       end
 
