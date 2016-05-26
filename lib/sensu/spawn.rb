@@ -5,7 +5,6 @@ require "eventmachine"
 require "em/worker"
 require "childprocess"
 require "rbconfig"
-
 require "timeout"
 
 # Attempt an upfront loading of FFI and POSIX spawn libraries. These
@@ -128,9 +127,9 @@ module Sensu
           child.io.stdin.close
         end
         if options[:timeout]
-          output = Timeout::timeout(options[:timeout], klass = ChildProcess::TimeoutError) {
+          output = Timeout::timeout(options[:timeout], ChildProcess::TimeoutError) do
             read_until_eof(reader)
-          }
+          end
           child.wait
         else
           output = read_until_eof(reader)
