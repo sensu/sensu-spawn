@@ -85,17 +85,38 @@ module Sensu
         [child, reader, writer]
       end
 
-      # Read a stream/file until end of file (EOF).
+      # Write data to a stream/file and read a stream/file
+      # until end of file (EOF).
       #
-      # @param [Object] reader to read contents of until EOF.
-      # @return [String] the stream/file contents.
-      def read_until_eof(reader)
+      # @param writer [Object] to write data to (optional).
+      # @param reader [Object] to read contents of until EOF.
+      # @param data [String] to be written to writer.
+      # @return [String] the reader stream/file contents.
+      def write_and_read(writer, reader, data)
+        buffer = (data || "").dup
         output = ""
-        begin
-          loop { output << reader.readpartial(8192) }
-        rescue EOFError
+        writers = [writer].compact
+        readers = [reader]
+        loop do
+          IO.select(readers, writers)
+          unless buffer.empty?
+            begin
+              bytes = writer.write_nonblock(buffer)
+              buffer.slice!(0, bytes)
+            rescue IO::WaitWritable, Errno::EINTR; end
+            if buffer.empty?
+              writer.close
+              writers = []
+            end
+          end
+          begin
+            output << reader.read_nonblock(8192)
+          rescue IO::WaitReadable
+          rescue EOFError
+            reader.close
+            break
+          end
         end
-        reader.close
         output
       end
 
@@ -122,17 +143,14 @@ module Sensu
           child.start
         end
         writer.close
-        if options[:data]
-          child.io.stdin.write(options[:data])
-          child.io.stdin.close
-        end
+        output = ""
         if options[:timeout]
-          output = Timeout::timeout(options[:timeout], ChildProcess::TimeoutError) do
-            read_until_eof(reader)
+          Timeout::timeout(options[:timeout], ChildProcess::TimeoutError) do
+            output = write_and_read(child.io.stdin, reader, options[:data])
+            child.wait
           end
-          child.wait
         else
-          output = read_until_eof(reader)
+          output = write_and_read(child.io.stdin, reader, options[:data])
           child.wait
         end
         [output, child.exit_code]
