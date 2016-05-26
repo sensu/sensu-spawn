@@ -1,16 +1,12 @@
 sudo: false
 language: ruby
 rvm:
-  - 1.8.7
-  - 1.9.2
-  - 1.9.3
   - 2.0.0
   - 2.1.0
+  - 2.2.0
   - 2.2.3
-  - jruby-1.7.18
+  - 2.3.0
+  - jruby-9.0.5.0
 notifications:
   irc:
     - "irc.freenode.net#sensu"
-addons:
-  code_climate:
-    repo_token: 6e0d725a7d86b1565bc5a8cfa218cf9fb59811b8d4b030e62b6a4745da9f0f96
