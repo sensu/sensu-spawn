@@ -58,8 +58,19 @@ module Sensu
       # the current platform. ChildProcess supports POSIX Spawn for
       # several platforms (OSs & architectures), however, Sensu only
       # enables the use of POSIX Spawn on a select few.
+      #
+      # @return [TrueClass, FalseClass]
       def posix_spawn?
-        @posix_spawn ||= POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
+        return @posix_spawn unless @posix_spawn.nil?
+        @posix_spawn = POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
+      end
+
+      # Determine if the current platform is Windows.
+      #
+      # @return [TrueClass, FalseClass]
+      def on_windows?
+        return @on_windows unless @on_windows.nil?
+        @on_windows = ChildProcess.windows?
       end
 
       # Build a child process attached to a pipe, in order to capture
@@ -71,8 +82,8 @@ module Sensu
       # @return [Array] child object, pipe reader, pipe writer.
       def build_child_process(command)
         reader, writer = IO.pipe
-        shell = case RUBY_PLATFORM
-        when /(ms|cyg|bcc)win|mingw|win32/
+        shell = case
+        when on_windows?
           ["cmd", "/c"]
         else
           ["sh", "-c"]
@@ -85,17 +96,31 @@ module Sensu
         [child, reader, writer]
       end
 
-      # Read a stream/file until end of file (EOF).
+      # Write data to a stream/file and read a stream/file
+      # until end of file (EOF).
       #
-      # @param [Object] reader to read contents of until EOF.
-      # @return [String] the stream/file contents.
-      def read_until_eof(reader)
+      # @param writer [Object] to write data to (optional).
+      # @param reader [Object] to read contents of until EOF.
+      # @param data [String] to be written to writer.
+      # @return [String] the reader stream/file contents.
+      def write_and_read(writer, reader, data)
+        buffer = (data || "").dup
         output = ""
-        begin
-          loop { output << reader.readpartial(8192) }
-        rescue EOFError
+        loop do
+          unless buffer.empty?
+            writer.write(buffer.slice!(0, 8191))
+            writer.close if buffer.empty?
+          end
+          begin
+            readable, _ = IO.select([reader], nil, nil, 0)
+            if readable || buffer.empty?
+              output << reader.readpartial(8192)
+            end
+          rescue EOFError
+            reader.close
+            break
+          end
         end
-        reader.close
         output
       end
 
@@ -122,17 +147,14 @@ module Sensu
           child.start
         end
         writer.close
-        if options[:data]
-          child.io.stdin.write(options[:data])
-          child.io.stdin.close
-        end
+        output = ""
         if options[:timeout]
-          output = Timeout::timeout(options[:timeout], ChildProcess::TimeoutError) do
-            read_until_eof(reader)
+          Timeout::timeout(options[:timeout], ChildProcess::TimeoutError) do
+            output = write_and_read(child.io.stdin, reader, options[:data])
+            child.wait
           end
-          child.wait
         else
-          output = read_until_eof(reader)
+          output = write_and_read(child.io.stdin, reader, options[:data])
           child.wait
         end
         [output, child.exit_code]
