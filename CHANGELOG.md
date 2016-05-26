@@ -1,3 +1,16 @@
+## 2.1.0 - 2016-05-26
+
+### Fixes
+
+Replaced ChildProcess poll_for_exit() with stdlib Timeout to fix large
+child output deadlock.
+
+## 2.0.0 - 2016-05-16
+
+### Features
+
+Configurable concurrent child process limit.
+
 ## 1.8.0 - 2016-03-16
 
 ### Fixes
