@@ -108,7 +108,7 @@ module Sensu
         output = ""
         loop do
           unless buffer.empty?
-            writer.write(buffer.slice!(0, 8192))
+            writer.write(buffer.slice!(0, 8191))
             writer.close if buffer.empty?
           end
           begin
