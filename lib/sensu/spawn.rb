@@ -95,23 +95,13 @@ module Sensu
       def write_and_read(writer, reader, data)
         buffer = (data || "").dup
         output = ""
-        writers = [writer].compact
-        readers = [reader]
         loop do
-          IO.select(readers, writers)
           unless buffer.empty?
-            begin
-              bytes = writer.write_nonblock(buffer)
-              buffer.slice!(0, bytes)
-            rescue IO::WaitWritable, Errno::EINTR; end
-            if buffer.empty?
-              writer.close
-              writers = []
-            end
+            writer.write(buffer.slice!(0, 8192))
+            writer.close if buffer.empty?
           end
           begin
-            output << reader.read_nonblock(8192)
-          rescue IO::WaitReadable
+            output << reader.readpartial(8192)
           rescue EOFError
             reader.close
             break
