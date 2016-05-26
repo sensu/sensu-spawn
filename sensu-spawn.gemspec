@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "sensu-spawn"
-  spec.version       = "2.0.0"
+  spec.version       = "2.1.0"
   spec.authors       = ["Sean Porter"]
   spec.email         = ["portertech@gmail.com"]
   spec.summary       = "The Sensu spawn process library"
@@ -22,5 +22,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler", "~> 1.6"
   spec.add_development_dependency "rake", "10.5.0"
   spec.add_development_dependency "rspec"
-  spec.add_development_dependency "codeclimate-test-reporter" unless RUBY_VERSION < "1.9"
 end

@@ -2,9 +2,6 @@
 
 [![Build Status](https://travis-ci.org/sensu/sensu-spawn.svg?branch=master)](https://travis-ci.org/sensu/sensu-spawn)
 
-[![Code Climate](https://codeclimate.com/github/sensu/sensu-spawn.png)](https://codeclimate.com/github/sensu/sensu-spawn)
-[![Code Climate Coverage](https://codeclimate.com/github/sensu/sensu-spawn/coverage.png)](https://codeclimate.com/github/sensu/sensu-spawn)
-
 ## Installation
 
 Add this line to your application's Gemfile:
