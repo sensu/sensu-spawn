@@ -58,8 +58,19 @@ module Sensu
       # the current platform. ChildProcess supports POSIX Spawn for
       # several platforms (OSs & architectures), however, Sensu only
       # enables the use of POSIX Spawn on a select few.
+      #
+      # @return [TrueClass, FalseClass]
       def posix_spawn?
-        @posix_spawn ||= POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
+        return @posix_spawn unless @posix_spawn.nil?
+        @posix_spawn = POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
+      end
+
+      # Determine if the current platform is Windows.
+      #
+      # @return [TrueClass, FalseClass]
+      def on_windows?
+        return @on_windows unless @on_windows.nil?
+        @on_windows = ChildProcess.windows?
       end
 
       # Build a child process attached to a pipe, in order to capture
@@ -71,8 +82,8 @@ module Sensu
       # @return [Array] child object, pipe reader, pipe writer.
       def build_child_process(command)
         reader, writer = IO.pipe
-        shell = case RUBY_PLATFORM
-        when /(ms|cyg|bcc)win|mingw|win32/
+        shell = case
+        when on_windows?
           ["cmd", "/c"]
         else
           ["sh", "-c"]
@@ -101,9 +112,10 @@ module Sensu
             writer.close if buffer.empty?
           end
           begin
-            output << reader.read_nonblock(8192)
-          rescue IO::WaitReadable
-            IO.select([reader]) if buffer.empty?
+            readable, _ = IO.select([reader], nil, nil, 0)
+            if readable || buffer.empty?
+              output << reader.readpartial(8192)
+            end
           rescue EOFError
             reader.close
             break
