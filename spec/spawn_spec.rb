@@ -92,4 +92,15 @@ describe "Sensu::Spawn" do
       end
     end
   end
+
+  it "can spawn a process that reads from STDIN and does not output to STDOUT" do
+    input_asset = IO.read("spec/assets/1MB")
+    async_wrapper do
+      Sensu::Spawn.process("cat > /tmp/sensu-spawn-test", :data => input_asset) do |output, status|
+        expect(output).to eq("")
+        expect(status).to eq(0)
+        async_done
+      end
+    end
+  end
 end

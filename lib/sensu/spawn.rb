@@ -101,7 +101,9 @@ module Sensu
             writer.close if buffer.empty?
           end
           begin
-            output << reader.readpartial(8192)
+            output << reader.read_nonblock(8192)
+          rescue IO::WaitReadable
+            IO.select([reader]) if buffer.empty?
           rescue EOFError
             reader.close
             break
