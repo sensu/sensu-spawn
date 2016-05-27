@@ -1,3 +1,10 @@
+## 2.2.0 - 2016-05-26
+
+### Fixes
+
+Alternating between partial child process STDIN writes and STDOUT/ERR
+reads, fixing the large STDIN write deadlock.
+
 ## 2.1.0 - 2016-05-26
 
 ### Fixes
