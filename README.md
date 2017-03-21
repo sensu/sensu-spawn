@@ -1,6 +1,8 @@
 # Sensu::Spawn
 
 [![Build Status](https://travis-ci.org/sensu/sensu-spawn.svg?branch=master)](https://travis-ci.org/sensu/sensu-spawn)
+![Gem Version](https://img.shields.io/gem/v/sensu-spawn.svg)
+![MIT Licensed](https://img.shields.io/github/license/sensu/sensu.svg)
 
 ## Installation
 
