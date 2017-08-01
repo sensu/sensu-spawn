@@ -1,76 +1,101 @@
-## 2.2.0 - 2016-05-26
+# Change Log
 
-### Fixes
+## [v2.2.1](https://github.com/sensu/sensu-spawn/tree/v2.2.1) (2016-09-12)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.0...v2.2.1)
 
-Alternating between partial child process STDIN writes and STDOUT/ERR
-reads, fixing the large STDIN write deadlock.
+**Merged pull requests:**
 
-## 2.1.0 - 2016-05-26
+- Only include necessary gem files [\#19](https://github.com/sensu/sensu-spawn/pull/19) ([amdprophet](https://github.com/amdprophet))
 
-### Fixes
+## [v2.2.0](https://github.com/sensu/sensu-spawn/tree/v2.2.0) (2016-05-27)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.1.0...v2.2.0)
 
-Replaced ChildProcess poll_for_exit() with stdlib Timeout to fix large
-child output deadlock.
+**Merged pull requests:**
 
-## 2.0.0 - 2016-05-16
+- Fixed child process large STDIN writes [\#17](https://github.com/sensu/sensu-spawn/pull/17) ([portertech](https://github.com/portertech))
 
-### Features
+## [v2.1.0](https://github.com/sensu/sensu-spawn/tree/v2.1.0) (2016-05-26)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.0.0...v2.1.0)
 
-Configurable concurrent child process limit.
+**Merged pull requests:**
 
-## 1.8.0 - 2016-03-16
+- Replace poll\_for\_exit with stdlib Timeout to fix large output deadlock [\#15](https://github.com/sensu/sensu-spawn/pull/15) ([tbriggs-curse](https://github.com/tbriggs-curse))
 
-### Fixes
+## [v2.0.0](https://github.com/sensu/sensu-spawn/tree/v2.0.0) (2016-05-17)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.8.0...v2.0.0)
 
-Moved FFI library require to load error rescue block, fixing the AIX and
-Solaris builds.
+**Merged pull requests:**
 
-## 1.7.0 - 2016-03-01
+- Configurable spawn child process limit [\#16](https://github.com/sensu/sensu-spawn/pull/16) ([portertech](https://github.com/portertech))
 
-### Other
+## [v1.8.0](https://github.com/sensu/sensu-spawn/tree/v1.8.0) (2016-03-10)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.7.0...v1.8.0)
 
-Only enable POSIX spawn on Linux and OS X.
+**Merged pull requests:**
 
-## 1.6.0 - 2015-11-13
+- Moved FFI require into load error rescue block, fixing AIX build [\#13](https://github.com/sensu/sensu-spawn/pull/13) ([portertech](https://github.com/portertech))
 
-### Fixes
+## [v1.7.0](https://github.com/sensu/sensu-spawn/tree/v1.7.0) (2016-03-01)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.6.0...v1.7.0)
 
-Use ChildProcess 0.5.8 to fix the Windows job handle leak.
+**Merged pull requests:**
 
-## 1.5.0 - 2015-09-16
+- Only enable POSIX Spawn for Linux & OS X [\#10](https://github.com/sensu/sensu-spawn/pull/10) ([portertech](https://github.com/portertech))
 
-### Other
+## [v1.6.0](https://github.com/sensu/sensu-spawn/tree/v1.6.0) (2015-11-13)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.5.0...v1.6.0)
 
-Removed sensu-em as a dependency, letting Sensu Core determine the version
-of EventMachine to be used.
+**Merged pull requests:**
 
-## 1.4.0 - 2015-09-09
+- Fix Windows job handle leak [\#8](https://github.com/sensu/sensu-spawn/pull/8) ([portertech](https://github.com/portertech))
 
-### Fixes
+## [v1.5.0](https://github.com/sensu/sensu-spawn/tree/v1.5.0) (2015-09-16)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.4.0...v1.5.0)
 
-Added a mutex `synchronize()` around ChildProcess Unix POSIX spawn
-(`start()`), as it is not thread safe, allowing safe execution on
-Ruby runtimes with real threads (JRuby).
+**Merged pull requests:**
 
-## 1.3.0 - 2015-07-09
+- Remove sensu-em as a dependency, let Sensu core determine which em to use [\#7](https://github.com/sensu/sensu-spawn/pull/7) ([portertech](https://github.com/portertech))
 
-### Other
+## [v1.4.0](https://github.com/sensu/sensu-spawn/tree/v1.4.0) (2015-09-09)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.3.0...v1.4.0)
 
-Bumped the version of childprocess to 0.5.6, adding support for the
-removal of environment variables (nil) and improved illegal thread state
-logging.
+**Merged pull requests:**
 
-## 1.2.0 - 2015-05-29
+- Use a mutex for childprocess posix spawn [\#6](https://github.com/sensu/sensu-spawn/pull/6) ([portertech](https://github.com/portertech))
 
-### Fixes
+## [v1.3.0](https://github.com/sensu/sensu-spawn/tree/v1.3.0) (2015-07-09)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.2.0...v1.3.0)
 
-Require POSIX spawn libraries immediately to combat loading race
-conditions when real threads are used. POSIX spawn support for the
-platform is assumed, but load errors are rescued.
+**Merged pull requests:**
 
-## 1.1.0 - 2014-09-15
+- Bump childprocess to latest available \(0.5.6\) [\#5](https://github.com/sensu/sensu-spawn/pull/5) ([darix](https://github.com/darix))
 
-### Features
+## [v1.2.0](https://github.com/sensu/sensu-spawn/tree/v1.2.0) (2015-05-29)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.1.0...v1.2.0)
 
-Support child process output > 64KB, parent process no longer waits for
-the child before closing its write end of pipe.
+**Merged pull requests:**
+
+- Require POSIX spawn libs immediately [\#4](https://github.com/sensu/sensu-spawn/pull/4) ([portertech](https://github.com/portertech))
+
+## [v1.1.0](https://github.com/sensu/sensu-spawn/tree/v1.1.0) (2014-09-15)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.0.0...v1.1.0)
+
+**Merged pull requests:**
+
+- use a spec asset for testing output larger than 64KB \(ascii\) [\#3](https://github.com/sensu/sensu-spawn/pull/3) ([portertech](https://github.com/portertech))
+- lock java-jars for travis-ci jruby build [\#2](https://github.com/sensu/sensu-spawn/pull/2) ([portertech](https://github.com/portertech))
+- Parent should not wait for child before closing its write end of pipe [\#1](https://github.com/sensu/sensu-spawn/pull/1) ([nlim](https://github.com/nlim))
+
+## [v1.0.0](https://github.com/sensu/sensu-spawn/tree/v1.0.0) (2014-06-12)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v0.0.3...v1.0.0)
+
+## [v0.0.3](https://github.com/sensu/sensu-spawn/tree/v0.0.3) (2014-05-24)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v0.0.2...v0.0.3)
+
+## [v0.0.2](https://github.com/sensu/sensu-spawn/tree/v0.0.2) (2014-05-24)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v0.0.1...v0.0.2)
+
+## [v0.0.1](https://github.com/sensu/sensu-spawn/tree/v0.0.1) (2014-05-19)
+
+
+\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
