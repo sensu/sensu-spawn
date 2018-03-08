@@ -1,8 +1,7 @@
 # Change Log
 
-## [Unreleased](https://github.com/sensu/sensu-spawn/tree/HEAD)
-
-[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.1...HEAD)
+## [v2.2.2](https://github.com/sensu/sensu-spawn/tree/v2.2.2) (2018-03-08)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.1...v2.2.2)
 
 **Merged pull requests:**
 
