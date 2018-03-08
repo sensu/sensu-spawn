@@ -1,5 +1,14 @@
 # Change Log
 
+## [Unreleased](https://github.com/sensu/sensu-spawn/tree/HEAD)
+
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.1...HEAD)
+
+**Merged pull requests:**
+
+- Sign the sensu-spawn Ruby gem [\#22](https://github.com/sensu/sensu-spawn/pull/22) ([portertech](https://github.com/portertech))
+- Implement automated changelog generation [\#21](https://github.com/sensu/sensu-spawn/pull/21) ([cwjohnston](https://github.com/cwjohnston))
+
 ## [v2.2.1](https://github.com/sensu/sensu-spawn/tree/v2.2.1) (2016-09-12)
 [Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.0...v2.2.1)
 
@@ -16,6 +25,10 @@
 
 ## [v2.1.0](https://github.com/sensu/sensu-spawn/tree/v2.1.0) (2016-05-26)
 [Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.0.0...v2.1.0)
+
+**Closed issues:**
+
+- Command with large output \( larger than STDOUT buffer\) times out if any timeout is set [\#14](https://github.com/sensu/sensu-spawn/issues/14)
 
 **Merged pull requests:**
 
@@ -37,6 +50,10 @@
 
 ## [v1.7.0](https://github.com/sensu/sensu-spawn/tree/v1.7.0) (2016-03-01)
 [Full Changelog](https://github.com/sensu/sensu-spawn/compare/v1.6.0...v1.7.0)
+
+**Closed issues:**
+
+- childprocess posix\_spawn does not support freebsd [\#9](https://github.com/sensu/sensu-spawn/issues/9)
 
 **Merged pull requests:**
 
