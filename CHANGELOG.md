@@ -1,5 +1,13 @@
 # Change Log
 
+## [Unreleased](https://github.com/sensu/sensu-spawn/tree/HEAD)
+
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.2...HEAD)
+
+**Merged pull requests:**
+
+- Only enable posix spawn on x86\_64 and i386 [\#23](https://github.com/sensu/sensu-spawn/pull/23) ([portertech](https://github.com/portertech))
+
 ## [v2.2.2](https://github.com/sensu/sensu-spawn/tree/v2.2.2) (2018-03-08)
 [Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.1...v2.2.2)
 
