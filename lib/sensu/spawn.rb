@@ -20,7 +20,6 @@ rescue LoadError; end
 module Sensu
   module Spawn
     POSIX_SPAWN_PLATFORMS = [:linux, :macosx].freeze
-    POSIX_SPAWN_ARCHS = ["x86_64", "i386"].freeze
 
     @@mutex = Mutex.new
 
@@ -63,9 +62,7 @@ module Sensu
       # @return [TrueClass, FalseClass]
       def posix_spawn?
         return @posix_spawn unless @posix_spawn.nil?
-        platform_supported = POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
-        arch_supported = POSIX_SPAWN_ARCHS.include?(ChildProcess.arch)
-        @posix_spawn = platform_supported && arch_supported
+        @posix_spawn = POSIX_SPAWN_PLATFORMS.include?(ChildProcess.os)
       end
 
       # Determine if the current platform is Windows.
