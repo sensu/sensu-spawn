@@ -163,8 +163,14 @@ module Sensu
         end
         [output, child.exit_code]
       rescue ChildProcess::TimeoutError
-        child.stop rescue nil
-        ["Execution timed out", 2]
+        output = "Execution timed out"
+        begin
+          child.stop
+        rescue => error
+          pid = child.pid rescue "?"
+          output += " - Unable to TERM/KILL the process: ##{pid}, #{error}"
+        end
+        [output, 2]
       rescue => error
         child.stop rescue nil
         ["Unexpected error: #{error}", 3]
