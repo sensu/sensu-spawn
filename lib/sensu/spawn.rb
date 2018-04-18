@@ -163,7 +163,8 @@ module Sensu
         begin
           child.stop
         rescue => error
-          output += " - Unable to TERM/KILL the process: #{error}"
+          pid = child.pid rescue "?"
+          output += " - Unable to TERM/KILL the process: ##{pid}, #{error}"
         end
         [output, 2]
       rescue => error
