@@ -1,5 +1,6 @@
 gem "em-worker", "0.0.2"
 gem "childprocess", "0.5.8"
+gem "ffi", "1.9.21"
 
 require "eventmachine"
 require "em/worker"
