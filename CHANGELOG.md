@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/sensu/sensu-spawn/tree/HEAD)
 
-[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.3.0...HEAD)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.4.0...HEAD)
+
+**Merged pull requests:**
+
+- Pin FFI version on load \(as well as install\) [\#28](https://github.com/sensu/sensu-spawn/pull/28) ([portertech](https://github.com/portertech))
+
+## [v2.4.0](https://github.com/sensu/sensu-spawn/tree/v2.4.0) (2018-04-18)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.3.0...v2.4.0)
 
 **Merged pull requests:**
 
