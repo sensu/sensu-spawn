@@ -1,5 +1,15 @@
 # Change Log
 
+## [Unreleased](https://github.com/sensu/sensu-spawn/tree/HEAD)
+
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.3.0...HEAD)
+
+**Merged pull requests:**
+
+- Revert "Revert "Only enable posix spawn on x86\_64 and i386"" [\#27](https://github.com/sensu/sensu-spawn/pull/27) ([portertech](https://github.com/portertech))
+- Pin FFI at 1.9.21, newer versions segfault on CentOS [\#26](https://github.com/sensu/sensu-spawn/pull/26) ([portertech](https://github.com/portertech))
+- Revert "Only enable posix spawn on x86\_64 and i386" [\#24](https://github.com/sensu/sensu-spawn/pull/24) ([portertech](https://github.com/portertech))
+
 ## [v2.3.0](https://github.com/sensu/sensu-spawn/tree/v2.3.0) (2018-04-12)
 [Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.2.2...v2.3.0)
 

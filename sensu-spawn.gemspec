@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name          = "sensu-spawn"
-  spec.version       = "2.3.0"
+  spec.version       = "2.4.0"
   spec.authors       = ["Sean Porter"]
   spec.email         = ["portertech@gmail.com", "engineering@sensu.io"]
   spec.summary       = "The Sensu spawn process library"
