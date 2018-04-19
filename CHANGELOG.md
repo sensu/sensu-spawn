@@ -2,7 +2,14 @@
 
 ## [Unreleased](https://github.com/sensu/sensu-spawn/tree/HEAD)
 
-[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.4.0...HEAD)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.4.1...HEAD)
+
+**Merged pull requests:**
+
+- Include stop error message in timeout output [\#25](https://github.com/sensu/sensu-spawn/pull/25) ([portertech](https://github.com/portertech))
+
+## [v2.4.1](https://github.com/sensu/sensu-spawn/tree/v2.4.1) (2018-04-18)
+[Full Changelog](https://github.com/sensu/sensu-spawn/compare/v2.4.0...v2.4.1)
 
 **Merged pull requests:**
 
